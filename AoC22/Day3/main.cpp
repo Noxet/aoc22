@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include <unordered_set>
+#include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -40,7 +42,44 @@ void part1(ifstream &ifs)
 }
 
 
-void part2(ifstream &ifs) { }
+void part2(ifstream &ifs)
+{
+	constexpr int GROUP_SIZE = 3;
+	int sum{ 0 };
+
+	while (!ifs.eof())
+	{
+		// assume all characters have been seen before
+		vector<bool> seen(52, true);
+
+
+		for (int i = 0; i < GROUP_SIZE; ++i)
+		{
+			vector<bool> mark(52, false);
+			string in{};
+			getline(ifs, in);
+			for (const auto &c : in)
+			{
+				// if seen before, mark it
+				if (seen.at(priority(c) - 1)) mark.at(priority(c) - 1) = true;
+			}
+
+			// update seen with the latest, basically performing a set intersection
+			seen = mark;
+			//copy(mark.begin(), mark.end(), seen.begin());
+		}
+
+		for (size_t i = 0; i < seen.size(); ++i)
+		{
+			if (seen.at(i))
+			{
+				sum += i + 1;
+			}
+		}
+	}
+
+	cout << "Part 2: " << sum << endl;
+}
 
 
 int main()
