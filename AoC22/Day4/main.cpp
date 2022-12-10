@@ -46,23 +46,14 @@ void solution(ifstream &ifs, const func &f)
 		unsigned int a, b;
 		char ignore;
 
-		ss >> a;
-		ss >> ignore; // skip the "-"
-		ss >> b;
-
+		ss >> a >> ignore >> b;
 		Section s1{ a, b };
 
-		ss >> ignore; // skip the comma
-		ss >> a;
-		ss >> ignore; // skip the "-"
-		ss >> b;
-
+		// skip the comma, read a, skip the "-", read b
+		ss >> ignore >> a >> ignore >> b;
 		Section s2{ a, b };
 
-		if (f(s1, s2))
-		{
-			++sum;
-		}
+		if (f(s1, s2)) ++sum;
 	}
 
 	cout << sum << endl;
